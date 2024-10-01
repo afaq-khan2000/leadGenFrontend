@@ -1,15 +1,16 @@
-import { Box, Button, Container, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button, CircularProgress, Container, Typography } from "@mui/material";
+import React, { useState } from "react";
 import { AuthImage } from "../../assets/images";
 import InputField from "../global/InputField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { AuthAPI } from "../../axios";
 
 function Login() {
   const navigate = useNavigate();
-  // email: "",
-  // password: "",
+  const [isLoading, setIsLoading] = useState(false);
+
   const initialValues = {
     email: "",
     password: "",
@@ -20,12 +21,26 @@ function Login() {
     password: Yup.string().required("Password is required"),
   });
 
+  const handleSubmit = async (values) => {
+    setIsLoading(true);
+    try {
+      let res = await AuthAPI.login(values);
+      setIsLoading(false);
+      if (res.status === 200) {
+        localStorage.setItem("access_token", res.data.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.data.user));
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      alert(error.response.data.message);
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: handleSubmit,
   });
 
   return (
@@ -94,6 +109,7 @@ function Login() {
           <InputField
             label="Password"
             name="password"
+            type="password"
             formik={formik}
             variant="outlined"
             margin="normal"
@@ -124,8 +140,9 @@ function Login() {
             variant="contained"
             type="submit"
             sx={{ width: "100%", height: "50px" }}
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? <CircularProgress size={24} color="primary" /> : "Login"}
           </Button>
         </Box>
       </Box>

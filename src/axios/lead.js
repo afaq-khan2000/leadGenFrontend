@@ -3,8 +3,8 @@ import axios from "./axios";
 
 class Routes {
   // change password - api handler
-  async getAllLeads(page, offset) {
-    const response = await axios.get(`/leads?page=${page}&offset=${offset}`);
+  async getAllLeads(page, limit) {
+    const response = await axios.get(`/leads?page=${page}&limit=${limit}`);
     return response;
   }
 

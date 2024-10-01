@@ -1,13 +1,22 @@
-import { Box, Button, Container, Typography } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import { AuthImage } from "../../assets/images";
 import InputField from "../global/InputField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { AuthAPI } from "../../axios";
 
 function Signup() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const initialValues = {
     username: "",
     email: "",
@@ -26,12 +35,25 @@ function Signup() {
     dealership_name: Yup.string().required("Dealership name is required"),
   });
 
+  const handleSubmit = async (values) => {
+    try {
+      setIsLoading(true);
+      let res = await AuthAPI.register(values);
+      setIsLoading(false);
+      console.log(res);
+      if (res.status === 200) {
+        navigate("/login");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      alert(error.response.data.message);
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: handleSubmit,
   });
 
   return (
@@ -132,6 +154,7 @@ function Signup() {
           <InputField
             label="Password"
             name="password"
+            type="password"
             formik={formik}
             variant="outlined"
             margin="normal"
@@ -180,8 +203,13 @@ function Signup() {
             variant="contained"
             type="submit"
             sx={{ width: "100%", height: "50px" }}
+            disabled={isLoading}
           >
-            Signup
+            {isLoading ? (
+              <CircularProgress size={24} color="primary" />
+            ) : (
+              "Sign Up"
+            )}
           </Button>
         </Box>
       </Box>
