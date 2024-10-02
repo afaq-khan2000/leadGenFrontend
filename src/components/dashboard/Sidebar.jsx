@@ -16,14 +16,20 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Message, Notifications } from "@mui/icons-material";
+import { Logout, Message, Notifications } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 function Sidebar({ children, ...props }) {
+
+  const navigate = useNavigate();
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+
+  let user = JSON.parse(localStorage.getItem("user")) ?? {};
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -67,8 +73,7 @@ function Sidebar({ children, ...props }) {
   );
 
   // Remove this const when copying and pasting into your project.
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -87,13 +92,7 @@ function Sidebar({ children, ...props }) {
             color: "black",
           }}
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
+          <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
             <MenuIcon />
           </IconButton>
           {/* <Typography variant="h6" noWrap component="div">
@@ -107,10 +106,8 @@ function Sidebar({ children, ...props }) {
             }}
           >
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography variant="h6">Hey Kevin!</Typography>
-              <Typography variant="body2">
-                {new Date().toLocaleDateString()}
-              </Typography>
+              <Typography variant="h6">Hey {user.first_name}</Typography>
+              <Typography variant="body2">{new Date().toLocaleDateString()}</Typography>
             </Box>
             <Box sx={{ display: "flex" }}>
               <IconButton color="inherit">
@@ -119,15 +116,20 @@ function Sidebar({ children, ...props }) {
               <IconButton color="inherit">
                 <Message />
               </IconButton>
+              <IconButton color="inherit">
+                <Logout
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                    localStorage.removeItem("access_token");
+                    navigate("/login");
+                  }}
+                />
+              </IconButton>
             </Box>
           </Box>
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
@@ -171,7 +173,7 @@ function Sidebar({ children, ...props }) {
         }}
       >
         <Toolbar />
-       {children}
+        {children}
       </Box>
     </Box>
   );

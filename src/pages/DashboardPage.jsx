@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import React, { useEffect } from "react";
 import { Cards, Sidebar, Table } from "../components/dashboard";
 import { LeadAPI } from "../axios";
@@ -6,13 +6,26 @@ import { Lock, LockOpen } from "@mui/icons-material";
 
 function DashboardPage() {
   const [loading, setLoading] = React.useState(false);
+  const [unlockLoading, setUnlockLoading] = React.useState({
+    id: null,
+    loading: false,
+  });
   const [leads, setLeads] = React.useState([]);
   const [unlockedLeads, setUnlockedLeads] = React.useState([]);
-  const [stats, setStats] = React.useState({
-    totalLeads: 0,
-    unlockedLeads: 0,
-    myCredits: 0,
-  });
+  const [stats, setStats] = React.useState([
+    {
+      title: "Total Leads",
+      value: 0,
+    },
+    {
+      title: "Unlocked Leads",
+      value: 0,
+    },
+    {
+      title: "My Credits",
+      value: 0,
+    },
+  ]);
   const [page, setPage] = React.useState(1);
   const [limit, setLimit] = React.useState(10);
   const [hasMore, setHasMore] = React.useState(false);
@@ -41,19 +54,53 @@ function DashboardPage() {
       });
       LeadAPI.getStats().then((res) => {
         if (res.status === 200) {
-          setStats({
-            totalLeads: res.data.data.totalLeads,
-            unlockedLeads: res.data.data.unlockedLeads,
-            myCredits: res.data.data.myCredits.credits,
-          });
+          setStats([
+            {
+              title: "Total Leads",
+              value: res.data.data.totalLeads,
+            },
+            {
+              title: "Unlocked Leads",
+              value: res.data.data.unlockedLeads,
+            },
+            {
+              title: "My Credits",
+              value: res.data.data.myCredits.credits,
+            },
+          ]);
         }
       });
     }
   }, [page, refresh, limit]);
 
+  const handleUnlock = (id) => {
+    setUnlockLoading({
+      id: id,
+      loading: true,
+    });
+    LeadAPI.unlockLead(id)
+      .then((res) => {
+        if (res.status === 200) {
+          setRefresh(!refresh);
+        }
+        setUnlockLoading({
+          id: null,
+          loading: false,
+        });
+      })
+      .catch((error) => {
+        setUnlockLoading({
+          id: null,
+          loading: false,
+        });
+        alert(error.response.data.message);
+      });
+  };
+
   const columns = [
     { field: "name", headerName: "Name", flex: 1 },
     { field: "car_brand_name", headerName: "Car Name", flex: 1 },
+    { field: "car_model", headerName: "Car Model", flex: 1 },
     { field: "email", headerName: "Email", flex: 1 },
     { field: "phone", headerName: "Phone", flex: 1 },
     { field: "lead_time", headerName: "Date", flex: 1 },
@@ -62,39 +109,29 @@ function DashboardPage() {
       headerName: "Unlock",
       flex: 1,
       renderCell: (params) => {
-        return (
-          <div>
-            {params.row.is_unlocked ? (
-              <LockOpen />
-            ) : (
-                <Lock />
-            )}
-          </div>
-        );
-      }
+        return <div>{params.row.is_unlocked ? <LockOpen /> : unlockLoading.loading && unlockLoading.id === params.row.id ? <CircularProgress size={20} /> : <Lock onClick={() => handleUnlock(params.row.id)} />}</div>;
+      },
     },
   ];
-  
 
   const rows = leads.map((lead) => {
     return {
       id: lead.lead_id,
-      name: lead.is_unlocked ? lead.name : "********",
-      car_brand_name: lead.is_unlocked
-        ? lead.car_brand_relationship?.car_brand_name
-        : "********",
+      name: lead.name,
+      car_brand_name: lead.car_brand_relationship?.car_brand_name,
+      car_model: lead.car_model,
       email: lead.is_unlocked ? lead.email : "********",
-      phone: lead.is_unlocked ? lead.phone : "********",
+      phone: lead.is_unlocked ? lead.phone.split(".")[0] : "********",
       lead_time: lead.lead_time,
       is_unlocked: lead.is_unlocked,
     };
   });
-  
+
   return (
     <Box>
       <Sidebar>
-        <Cards />
-        <Table columns={columns} rows={rows} pagination={pagination} page={page} setPage={setPage} limit={limit} setLimit={setLimit} />
+        <Cards data={stats} />
+        <Table columns={columns} rows={rows} pagination={pagination} page={page} setPage={setPage} limit={limit} setLimit={setLimit} leads={leads} setLeads={setLeads} setRefresh={setRefresh} refresh={refresh} loading={loading} />
       </Sidebar>
     </Box>
   );

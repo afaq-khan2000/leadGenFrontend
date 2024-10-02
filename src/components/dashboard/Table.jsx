@@ -10,6 +10,7 @@ export default function Table({
   page,
   setPage,
   setLimit,
+  loading,
 }) {
   // Handle page and pageSize change
   const handlePaginationChange = (newPaginationModel) => {
@@ -29,6 +30,7 @@ export default function Table({
         columns={columns}
         sx={{ border: 0 }}
         pagination
+        loading={loading}
         paginationMode="server" // Enable server-side pagination
         rowCount={pagination.totalItems} // Total rows from the server
         pageSize={limit} // Rows per page

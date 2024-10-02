@@ -18,13 +18,14 @@ function Cards({
   ],
 }) {
   return (
-    <Box sx={{ display: "flex", justifyContent: "space-between", my: 5 }}>
+    <Box sx={{ display: "flex", justifyContent: "space-between", my: 5 ,flexWrap: "wrap"}}>
       {data.map((card, index) => (
         <Card
           key={index}
           sx={{
             height: 150,
-            width: "30%",
+            width: { xs: "100%", md: "30%" },
+            mb:{ xs: 2, md: 0 },
             backgroundColor: "#f5f5f5",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
           }}

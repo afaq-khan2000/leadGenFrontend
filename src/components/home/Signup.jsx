@@ -60,22 +60,20 @@ function Signup() {
     <Container
       maxWidth="xl"
       sx={{
-        py: "32px",
+        // py: "32px",
       }}
     >
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
-          height: "calc(100vh - 64px)",
           gap: "20px",
-          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
         }}
       >
         <Box
           sx={{
             width: "50%",
-            height: "100%",
+            display: { xs: "none", md: "block" },
           }}
         >
           <Box
@@ -84,7 +82,7 @@ function Signup() {
             alt="Signup"
             sx={{
               width: "100%",
-              height: "100%",
+              height: "100vh",
               objectFit: "cover",
               objectPosition: "center",
             }}
@@ -92,16 +90,13 @@ function Signup() {
         </Box>
         <Box
           sx={{
-            width: "50%",
+            width: { xs: "100%", md: "50%" },
+            height: "100vh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             gap: "5px",
-            border: "1px solid #e0e0e0",
-            borderRadius: "5px",
-            px: "20px",
-            py: "10px",
             mx: "20px",
           }}
           component="form"
