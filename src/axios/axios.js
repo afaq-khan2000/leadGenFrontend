@@ -3,8 +3,8 @@ import axios from "axios";
 
 const instance = axios.create({
   // baseURL: 'http://51.21.88.37:8001',
-  baseURL: "http://localhost:3000/api",
-  // baseURL: "https://leadgen-production.up.railway.app/api",
+  // baseURL: "http://localhost:3000/api",
+  baseURL: "https://leadgen-production.up.railway.app/api",
   headers: {
     "Content-Type": "application/json",
     "cache-control": "no-cache",
