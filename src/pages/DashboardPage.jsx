@@ -27,7 +27,7 @@ function DashboardPage() {
     },
   ]);
   const [page, setPage] = React.useState(1);
-  const [limit, setLimit] = React.useState(10);
+  const [limit, setLimit] = React.useState(30);
   const [hasMore, setHasMore] = React.useState(false);
   const [refresh, setRefresh] = React.useState(false);
   const [pagination, setPagination] = React.useState({
