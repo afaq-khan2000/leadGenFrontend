@@ -103,8 +103,8 @@ function Signup() {
           onSubmit={formik.handleSubmit}
         >
           <Typography variant="h4">Create an account</Typography>
-          <Typography variant="body2">
-            Get started with a free account
+          <Typography variant="body4"><b>
+          Sign up and enjoy AED 1000 worth of credits on us! </b>
           </Typography>
           <InputField
             label="Username"
