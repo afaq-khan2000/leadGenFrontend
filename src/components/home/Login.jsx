@@ -1,4 +1,10 @@
-import { Box, Button, CircularProgress, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { AuthImage } from "../../assets/images";
 import InputField from "../global/InputField";
@@ -84,9 +90,24 @@ function Login() {
           onSubmit={formik.handleSubmit}
         >
           <Typography variant="h4">Login to your account</Typography>
-          <Typography variant="body2">Get access to your Leads Dashboard</Typography>
-          <InputField label="Email" name="email" formik={formik} variant="outlined" margin="normal" fullWidth />
-          <InputField label="Password" name="password" type="password" formik={formik} variant="outlined" margin="normal" fullWidth />
+          <Typography variant="body2">
+            Get access to your Leads Dashboard
+          </Typography>
+          <InputField
+            label="Email"
+            name="email"
+            formik={formik}
+            margin="normal"
+            fullWidth
+          />
+          <InputField
+            label="Password"
+            name="password"
+            type="password"
+            formik={formik}
+            margin="normal"
+            fullWidth
+          />
           <Box
             sx={{
               width: "100%",
@@ -98,13 +119,27 @@ function Login() {
           >
             <Typography variant="body2" sx={{ mt: "10px" }}>
               Don't have an account?{" "}
-              <Typography variant="body2" component="span" sx={{ color: "primary.main", cursor: "pointer" }} onClick={() => navigate("/")}>
+              <Typography
+                variant="body2"
+                component="span"
+                sx={{ color: "primary.main", cursor: "pointer" }}
+                onClick={() => navigate("/")}
+              >
                 Signup
               </Typography>
             </Typography>
           </Box>
-          <Button variant="contained" type="submit" sx={{ width: "100%", height: "50px" }} disabled={isLoading}>
-            {isLoading ? <CircularProgress size={24} color="primary" /> : "Login"}
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ width: "100%", height: "50px" }}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <CircularProgress size={24} color="primary" />
+            ) : (
+              "Login"
+            )}
           </Button>
         </Box>
       </Box>

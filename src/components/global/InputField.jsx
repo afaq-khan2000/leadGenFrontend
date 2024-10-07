@@ -4,6 +4,7 @@ import { TextField } from "@mui/material";
 const InputField = ({ name, formik, label, ...props }) => {
   return (
     <TextField
+      variant="standard"
       fullWidth
       label={label}
       {...props}
@@ -13,6 +14,7 @@ const InputField = ({ name, formik, label, ...props }) => {
       value={formik.values[name]}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
+      autoComplete="off"
     />
   );
 };

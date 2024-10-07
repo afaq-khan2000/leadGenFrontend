@@ -20,6 +20,7 @@ function Signup() {
   const initialValues = {
     username: "",
     email: "",
+    phone: "",
     password: "",
     first_name: "",
     last_name: "",
@@ -29,6 +30,7 @@ function Signup() {
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
+    phone: Yup.string().required("Phone number is required"),
     password: Yup.string().required("Password is required"),
     first_name: Yup.string().required("First name is required"),
     last_name: Yup.string().required("Last name is required"),
@@ -59,9 +61,11 @@ function Signup() {
   return (
     <Container
       maxWidth="xl"
-      sx={{
-        // py: "32px",
-      }}
+      sx={
+        {
+          // py: "32px",
+        }
+      }
     >
       <Box
         sx={{
@@ -103,14 +107,13 @@ function Signup() {
           onSubmit={formik.handleSubmit}
         >
           <Typography variant="h4">Create an account</Typography>
-          <Typography variant="body4"><b>
-          Sign up and enjoy AED 1000 worth of credits on us! </b>
+          <Typography variant="body4">
+            <b>Sign up and enjoy AED 1000 worth of credits on us! </b>
           </Typography>
           <InputField
             label="Username"
             name="username"
             formik={formik}
-            variant="outlined"
             margin="normal"
             fullWidth
           />
@@ -118,15 +121,20 @@ function Signup() {
             label="Email"
             name="email"
             formik={formik}
-            variant="outlined"
             margin="normal"
             fullWidth
           />
           <InputField
+            label="Phone"
+            name="phone"
+            formik={formik}
+            margin="normal"
+            fullWidth
+          /> 
+          <InputField
             label="First Name"
             name="first_name"
             formik={formik}
-            variant="outlined"
             margin="normal"
             fullWidth
           />
@@ -134,7 +142,6 @@ function Signup() {
             label="Last Name"
             name="last_name"
             formik={formik}
-            variant="outlined"
             margin="normal"
             fullWidth
           />
@@ -142,7 +149,6 @@ function Signup() {
             label="Dealership Name"
             name="dealership_name"
             formik={formik}
-            variant="outlined"
             margin="normal"
             fullWidth
           />
@@ -151,7 +157,6 @@ function Signup() {
             name="password"
             type="password"
             formik={formik}
-            variant="outlined"
             margin="normal"
             fullWidth
           />

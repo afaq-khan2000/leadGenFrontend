@@ -1,6 +1,6 @@
 import { Box, CircularProgress } from "@mui/material";
 import React, { useEffect } from "react";
-import { Cards, Sidebar, Table } from "../components/dashboard";
+import { Cards, Sidebar, DataTable } from "../components/dashboard";
 import { LeadAPI } from "../axios";
 import { Lock, LockOpen } from "@mui/icons-material";
 
@@ -35,13 +35,17 @@ function DashboardPage() {
     currentPage: 1,
     totalPages: 1,
   });
+  const [order, setOrder] = React.useState("desc");
+  const [orderBy, setOrderBy] = React.useState("lead_time");
+  const [search, setSearch] = React.useState("");
 
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
       window.location.href = "/login";
     } else {
       setLoading(true);
-      LeadAPI.getAllLeads(page, limit).then((res) => {
+        // let { page, limit, search, sortBy, order } = query;
+      LeadAPI.getAllLeads(page, limit, search, orderBy, order).then((res) => {
         if (res.status === 200) {
           setLoading(false);
           setLeads(res.data.data.leads);
@@ -71,7 +75,9 @@ function DashboardPage() {
         }
       });
     }
-  }, [page, refresh, limit]);
+  }, [page, refresh, limit, order, orderBy, search]);
+
+  console.log("leads", search);
 
   const handleUnlock = (id) => {
     setUnlockLoading({
@@ -109,7 +115,21 @@ function DashboardPage() {
       headerName: "Unlock",
       flex: 1,
       renderCell: (params) => {
-        return <div>{params.row.is_unlocked ? <LockOpen /> : unlockLoading.loading && unlockLoading.id === params.row.id ? <CircularProgress size={20} /> : <Lock onClick={() => handleUnlock(params.row.id)} />}</div>;
+        console.log(params.row);
+        return (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {params.row.is_unlocked ? (
+              <LockOpen />
+            ) : unlockLoading.loading && unlockLoading.id === params.row.id ? (
+              <CircularProgress size={20} />
+            ) : (
+              <>
+              <Lock onClick={() => handleUnlock(params.row.id)} />
+                Credits Required: {params.row.credits_required}
+              </>
+            )}
+          </Box>
+        );
       },
     },
   ];
@@ -124,6 +144,7 @@ function DashboardPage() {
       phone: lead.is_unlocked ? lead.phone.split(".")[0] : "********",
       lead_time: lead.lead_time,
       is_unlocked: lead.is_unlocked,
+      credits_required: lead.credits_required,
     };
   });
 
@@ -131,7 +152,26 @@ function DashboardPage() {
     <Box>
       <Sidebar>
         <Cards data={stats} />
-        <Table columns={columns} rows={rows} pagination={pagination} page={page} setPage={setPage} limit={limit} setLimit={setLimit} leads={leads} setLeads={setLeads} setRefresh={setRefresh} refresh={refresh} loading={loading} />
+        <DataTable
+          columns={columns}
+          rows={rows}
+          pagination={pagination}
+          page={page}
+          setPage={setPage}
+          limit={limit}
+          setLimit={setLimit}
+          leads={leads}
+          setLeads={setLeads}
+          setRefresh={setRefresh}
+          refresh={refresh}
+          loading={loading}
+          search={search}
+          setSearch={setSearch}
+          order={order}
+          setOrder={setOrder}
+          orderBy={orderBy}
+          setOrderBy={setOrderBy}
+        />
       </Sidebar>
     </Box>
   );
