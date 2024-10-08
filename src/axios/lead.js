@@ -18,8 +18,8 @@ class Routes {
     return response;
   }
 
-  async getUnlockedLeads() {
-    const response = await axios.get(`/leads/unlocked_leads`);
+  async getUnlockedLeads(page, limit, search, sortBy, order) {
+    const response = await axios.get(`/leads/unlocked_leads?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&order=${order}`);
     return response;
   }
 }

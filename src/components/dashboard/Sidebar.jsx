@@ -16,13 +16,12 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Logout, Message, Notifications } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { LockOpen, Logout, Message, Notifications } from "@mui/icons-material";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 function Sidebar({ children, ...props }) {
-
   const navigate = useNavigate();
 
   const { window } = props;
@@ -30,6 +29,23 @@ function Sidebar({ children, ...props }) {
   const [isClosing, setIsClosing] = React.useState(false);
 
   let user = JSON.parse(localStorage.getItem("user")) ?? {};
+
+  // get path name using useLocation hook
+  const location = useLocation();
+  const activePage = location.pathname;
+
+  const sideBarItems = [
+    {
+      title: "Leads List",
+      icon: <MailIcon />,
+      link: "/dashboard",
+    },
+    {
+      title: "Unlocked Leads",
+      icon: <LockOpen />,
+      link: "/dashboard/unlocked-leads",
+    },
+  ];
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -51,23 +67,26 @@ function Sidebar({ children, ...props }) {
       <Toolbar />
       <Divider />
       <List>
-        {/* {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => ( */}
-        <ListItem
-          disablePadding
-          sx={{
-            backgroundColor: "lightblue",
-            "&:hover": {
-              backgroundColor: "white",
-            },
-          }}
-        >
-          <ListItemButton>
-            <ListItemIcon>
-              <MailIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Leads List"} />
-          </ListItemButton>
-        </ListItem>
+        {sideBarItems.map((item, index) => (
+          <ListItem
+            key={index}
+            disablePadding
+            sx={{
+              backgroundColor: activePage === item.link ? "#08f" : "white",
+              color: activePage === item.link ? "white" : "black",
+            }}
+            onClick={() => navigate(item.link)}
+          >
+            <ListItemButton>
+              <ListItemIcon
+              sx={{
+                color: activePage === item.link ? "white" : "black",
+              }}
+              >{item.icon}</ListItemIcon>
+              <ListItemText primary={item.title} />
+            </ListItemButton>
+          </ListItem>
+        ))}
       </List>
     </div>
   );
@@ -173,7 +192,7 @@ function Sidebar({ children, ...props }) {
         }}
       >
         <Toolbar />
-        {children}
+        <Outlet />
       </Box>
     </Box>
   );

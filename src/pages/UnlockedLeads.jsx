@@ -3,11 +3,8 @@ import React, { useEffect } from "react";
 import { Cards, Sidebar, DataTable } from "../components/dashboard";
 import { LeadAPI } from "../axios";
 import { Lock, LockOpen } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 
-function DashboardPage() {
-  const navigate = useNavigate();
-
+function UnlockedLeads() {
   const [loading, setLoading] = React.useState(false);
   const [unlockLoading, setUnlockLoading] = React.useState({
     id: null,
@@ -48,7 +45,7 @@ function DashboardPage() {
     } else {
       setLoading(true);
       // let { page, limit, search, sortBy, order } = query;
-      LeadAPI.getAllLeads(page, limit, search, orderBy, order).then((res) => {
+      LeadAPI.getUnlockedLeads(page, limit, search, orderBy, order).then((res) => {
         if (res.status === 200) {
           setLoading(false);
           setLeads(res.data.data.leads);
@@ -80,72 +77,28 @@ function DashboardPage() {
     }
   }, [page, refresh, limit, order, orderBy, search]);
 
-  const handleUnlock = (id) => {
-    setUnlockLoading({
-      id: id,
-      loading: true,
-    });
-    LeadAPI.unlockLead(id)
-      .then((res) => {
-        if (res.status === 200) {
-          setRefresh(!refresh);
-          navigate("/dashboard/unlocked-leads");
-        }
-        setUnlockLoading({
-          id: null,
-          loading: false,
-        });
-      })
-      .catch((error) => {
-        setUnlockLoading({
-          id: null,
-          loading: false,
-        });
-        alert(error.response.data.message);
-      });
-  };
-
   const columns = [
-    { field: "name", headerName: "Name", width: 100 },
-    { field: "car_brand_name", headerName: "Car Name" , width: 100},
-    { field: "car_model", headerName: "Car Model" , width: 300},
-    { field: "email", headerName: "Email", width: 100 },
-    { field: "phone", headerName: "Phone" , width: 100},
-    { field: "lead_time", headerName: "Date", width: 100 },
-    {
-      field: "is_unlocked",
-      headerName: "Unlock",
-      width: 300,
-      renderCell: (params) => {
-        return (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, cursor: "pointer" }}>
-            {params.row.is_unlocked ? (
-              <LockOpen />
-            ) : unlockLoading.loading && unlockLoading.id === params.row.id ? (
-              <CircularProgress size={20} />
-            ) : (
-              <>
-                <Lock onClick={() => handleUnlock(params.row.id)} />
-                Credits Required: {params.row.credits_required}
-              </>
-            )}
-          </Box>
-        );
-      },
-    },
+    { field: "name", headerName: "Name", width: 150 },
+    { field: "email", headerName: "Email",width: 150 },
+    { field: "phone", headerName: "Phone" ,width: 150},
+    { field: "car_brand_name", headerName: "Car Name", width: 100 },
+    { field: "car_model", headerName: "Car Model", width: 300 },
+    { field: "lead_time", headerName: "Date" ,width: 100},
+    { field: "unlock_date", headerName: "Unlock Date", width: 150 },
+    { field: "credits_used", headerName: "Credits Used", width: 100 },
   ];
 
   const rows = leads.map((lead) => {
     return {
-      id: lead.lead_id,
-      name: lead.name,
-      car_brand_name: lead.car_brand_relationship?.car_brand_name,
-      car_model: lead.car_model,
-      email: lead.is_unlocked ? lead.email : "********",
-      phone: lead.is_unlocked ? lead.phone.split(".")[0] : "********",
-      lead_time: lead.lead_time,
-      is_unlocked: lead.is_unlocked,
-      credits_required: lead.credits_required,
+      id: lead.unlock_id,
+      name: lead.lead_final.name,
+      email: lead.lead_final.email,
+      phone: lead.lead_final.phone,
+      car_brand_name: lead.lead_final.car_brand_relationship.car_brand_name,
+      car_model: lead.lead_final.car_model,
+      lead_time: lead.lead_final.lead_time,
+      unlock_date: new Date(lead.unlock_date).toLocaleString(),
+      credits_used: lead.credits_used,
     };
   });
 
@@ -159,4 +112,4 @@ function DashboardPage() {
   );
 }
 
-export default DashboardPage;
+export default UnlockedLeads;
