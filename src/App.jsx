@@ -5,6 +5,7 @@ import theme from "./theme/theme";
 import { AppRouter } from "./routers";
 import AOS from "aos";
 import "aos/dist/aos.css"; // Import AOS styles
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Toaster />
       <CssBaseline />
       <AppRouter />
     </ThemeProvider>

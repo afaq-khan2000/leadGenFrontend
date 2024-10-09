@@ -18,6 +18,11 @@ class Routes {
     console.log(response);
     return response;
   }
+
+  async verifyEmail(data) {
+    const response = await axios.post(`/auth/verify-email`, data);
+    return response;
+  }
 }
 
 export default new Routes();
