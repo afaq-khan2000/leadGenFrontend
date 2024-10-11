@@ -153,12 +153,6 @@ function Sidebar({ children, ...props }) {
             </Box>
             <Box sx={{ display: "flex" }}>
               <IconButton color="inherit">
-                <Notifications />
-              </IconButton>
-              <IconButton color="inherit">
-                <Message />
-              </IconButton>
-              <IconButton color="inherit">
                 <Logout
                   onClick={() => {
                     localStorage.removeItem("user");
