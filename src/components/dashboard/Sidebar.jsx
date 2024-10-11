@@ -23,6 +23,7 @@ import {
   MonetizationOn,
   Notifications,
 } from "@mui/icons-material";
+import FabIcon from "../global/FabIcon";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -220,6 +221,7 @@ function Sidebar({ children, ...props }) {
         <Toolbar />
         <Outlet />
       </Box>
+      <FabIcon />
     </Box>
   );
 }
