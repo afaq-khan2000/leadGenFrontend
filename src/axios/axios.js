@@ -28,7 +28,6 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    console.log("response", response.data);
     const { data } = response;
     if (data.notify) {
       toast.success(data.message);

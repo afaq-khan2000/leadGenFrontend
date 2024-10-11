@@ -13,14 +13,21 @@ class Routes {
     return response;
   }
 
-  async checkoutSession() {
-    const response = await axios.get(`/auth/checkout-session`);
+  async checkoutSession(data) {
+    const response = await axios.get(
+      `/auth/checkout-session?credits=${data.credits}&amount=${data.amount}`
+    );
     console.log(response);
     return response;
   }
 
   async verifyEmail(data) {
     const response = await axios.post(`/auth/verify-email`, data);
+    return response;
+  }
+
+  async getStripeTransactions() {
+    const response = await axios.get(`/auth/stripe-transactions`);
     return response;
   }
 }

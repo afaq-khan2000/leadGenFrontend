@@ -207,6 +207,7 @@ function DataTable({
   setOrderBy,
   search,
   setSearch,
+  dontShowPagination = false,
 }) {
   const handlePageChange = (_, newPage) => {
     setPage(newPage + 1);
@@ -255,18 +256,18 @@ function DataTable({
             width: "100%",
             overflowX: "auto",
             overflowY: "auto",
-            '&::-webkit-scrollbar': {
-              width: '8px',
-              height: '8px',
+            "&::-webkit-scrollbar": {
+              width: "8px",
+              height: "8px",
             },
-            '&::-webkit-scrollbar-track': {
-              backgroundColor: '#f1f1f1',
+            "&::-webkit-scrollbar-track": {
+              backgroundColor: "#f1f1f1",
             },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: '#888',
-              borderRadius: '4px',
-              '&:hover': {
-                backgroundColor: '#555',
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "#888",
+              borderRadius: "4px",
+              "&:hover": {
+                backgroundColor: "#555",
               },
             },
           }}
@@ -297,7 +298,9 @@ function DataTable({
                   >
                     <TableSortLabel
                       active={orderBy === column.field}
-                      direction={orderBy === column.field ? order.toLowerCase() : "asc"}
+                      direction={
+                        orderBy === column.field ? order.toLowerCase() : "asc"
+                      }
                       onClick={() => handleSort(column)}
                     >
                       {column.headerName}
@@ -325,7 +328,9 @@ function DataTable({
                           padding: "16px",
                         }}
                       >
-                        {column.renderCell ? column.renderCell({ row }) : row[column.field]}
+                        {column.renderCell
+                          ? column.renderCell({ row })
+                          : row[column.field]}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -340,22 +345,24 @@ function DataTable({
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 30, 50, 100, 200, 500]}
-          component="div"
-          count={pagination.totalItems}
-          rowsPerPage={limit}
-          page={page - 1}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleLimitChange}
-          sx={{
-            position: "sticky",
-            bottom: 0,
-            backgroundColor: "background.paper",
-            borderTop: 1,
-            borderColor: "divider",
-          }}
-        />
+        {!dontShowPagination && (
+          <TablePagination
+            rowsPerPageOptions={[10, 30, 50, 100, 200, 500]}
+            component="div"
+            count={pagination.totalItems}
+            rowsPerPage={limit}
+            page={page - 1}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleLimitChange}
+            sx={{
+              position: "sticky",
+              bottom: 0,
+              backgroundColor: "background.paper",
+              borderTop: 1,
+              borderColor: "divider",
+            }}
+          />
+        )}
       </Paper>
     </Box>
   );
