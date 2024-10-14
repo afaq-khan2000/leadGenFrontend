@@ -65,19 +65,13 @@ function Signup() {
   });
 
   return (
-    <Container
-      maxWidth="xl"
+    <Box
       sx={{
-        // py: "32px",
-        // backgroundImage: `url(${BGImage})`,
-        // backgroundSize: "cover",
-        // backgroundPosition: "center",
-        // backgroundRepeat: "no-repeat",
         height: "100vh",
-        position: "relative",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        position: "relative",
       }}
     >
       <Box
@@ -89,191 +83,172 @@ function Signup() {
           bottom: 0,
           backgroundImage: `url(${BGImage})`,
           backgroundSize: "cover",
-          // aa bit right
-          backgroundPosition: "center right",
+          backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           zIndex: -1,
           filter: "brightness(0.5)",
         }}
       />
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "20px",
-        }}
-      >
-        {/* <Box
-          sx={{
-            width: "50%",
-            display: { xs: "none", md: "block" },
-          }}
-        >
-          <Box
-            component="img"
-            src={AuthImage}
-            alt="Signup"
-            sx={{
-              width: "100%",
-              height: "100vh",
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
-        </Box> */}
+      <Container maxWidth="xl">
         <Box
           sx={{
-            width: { xs: "100%", md: "60%" },
-            height: "max-content",
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
             alignItems: "center",
-            gap: "2px",
-            // mx: "20px",
-            p: { xs: "20px", md: "40px" },
-            backgroundColor: "rgba(255, 255, 255, 0.7)",
-            borderRadius: "20px",
+            justifyContent: "center",
           }}
-          component="form"
-          onSubmit={formik.handleSubmit}
         >
-          <Typography variant="h4">Create an account</Typography>
-          <Typography variant="body4">
-            <b>Sign up and enjoy AED 1000 worth of credits on us! </b>
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={6} sm={6}>
-              <InputField
-                label="Username"
-                name="username"
-                formik={formik}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <InputField
-                label="Email"
-                name="email"
-                formik={formik}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <InputField
-                label="Phone"
-                name="phone"
-                formik={formik}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <InputField
-                label="First Name"
-                name="first_name"
-                formik={formik}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <InputField
-                label="Last Name"
-                name="last_name"
-                formik={formik}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <InputField
-                label="Dealership Name"
-                name="dealership_name"
-                formik={formik}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <InputField
-                label="Password"
-                name="password"
-                type="password"
-                formik={formik}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <InputField
-                label="Confirm Password"
-                name="confirmPassword"
-                type="password"
-                formik={formik}
-                margin="normal"
-                fullWidth
-              />
-            </Grid>
-          </Grid>
           <Box
             sx={{
-              width: "100%",
+              width: { xs: "100%", md: "60%" },
+              height: "max-content",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              mt: "20px",
+              gap: "2px",
+              p: { xs: "20px", md: "40px" },
+              backgroundColor: "rgba(255, 255, 255, 0.7)",
+              borderRadius: "20px",
             }}
+            component="form"
+            onSubmit={formik.handleSubmit}
           >
-            <Typography variant="body2">
-              By signing up, you agree to our{" "}
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "primary.main", cursor: "pointer" }}
-              >
-                Terms
-              </Typography>{" "}
-              and{" "}
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "primary.main", cursor: "pointer" }}
-              >
-                Privacy Policy
-              </Typography>
+            <Typography variant="h4">Create an account</Typography>
+            <Typography variant="body4">
+              <b>Sign up and enjoy AED 1000 worth of credits on us! </b>
             </Typography>
-            <Typography variant="body2" sx={{ mt: "10px" }}>
-              Already have an account?{" "}
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "primary.main", cursor: "pointer" }}
-                onClick={() => navigate("/login")}
-              >
-                Login
+            <Grid container spacing={2}>
+              <Grid item xs={6} sm={6}>
+                <InputField
+                  label="Username"
+                  name="username"
+                  formik={formik}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6} sm={6}>
+                <InputField
+                  label="Email"
+                  name="email"
+                  formik={formik}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6} sm={6}>
+                <InputField
+                  label="Phone"
+                  name="phone"
+                  formik={formik}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6} sm={6}>
+                <InputField
+                  label="First Name"
+                  name="first_name"
+                  formik={formik}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6} sm={6}>
+                <InputField
+                  label="Last Name"
+                  name="last_name"
+                  formik={formik}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6} sm={6}>
+                <InputField
+                  label="Dealership Name"
+                  name="dealership_name"
+                  formik={formik}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6} sm={6}>
+                <InputField
+                  label="Password"
+                  name="password"
+                  type="password"
+                  formik={formik}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6} sm={6}>
+                <InputField
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  formik={formik}
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                mt: "20px",
+              }}
+            >
+              <Typography variant="body2">
+                By signing up, you agree to our{" "}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{ color: "primary.main", cursor: "pointer" }}
+                >
+                  Terms
+                </Typography>{" "}
+                and{" "}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{ color: "primary.main", cursor: "pointer" }}
+                >
+                  Privacy Policy
+                </Typography>
               </Typography>
-            </Typography>
+              <Typography variant="body2" sx={{ mt: "10px" }}>
+                Already have an account?{" "}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{ color: "primary.main", cursor: "pointer" }}
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </Typography>
+              </Typography>
+            </Box>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ width: "100%", height: "50px", mt: "20px" }}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <CircularProgress size={24} color="primary" />
+              ) : (
+                "Sign Up"
+              )}
+            </Button>
           </Box>
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{ width: "100%", height: "50px", mt: "20px" }}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <CircularProgress size={24} color="primary" />
-            ) : (
-              "Sign Up"
-            )}
-          </Button>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 }
 

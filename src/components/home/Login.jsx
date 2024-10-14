@@ -50,19 +50,13 @@ function Login() {
   });
 
   return (
-    <Container
-      maxWidth="xl"
+    <Box
       sx={{
-        // py: "32px",
-        // backgroundImage: `url(${BGImage})`,
-        // backgroundSize: "cover",
-        // backgroundPosition: "center",
-        // backgroundRepeat: "no-repeat",
         height: "100vh",
-        position: "relative",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        position: "relative",
       }}
     >
       <Box
@@ -80,105 +74,88 @@ function Login() {
           filter: "brightness(0.5)",
         }}
       />
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "20px",
-        }}
-      >
-        {/* <Box
-          sx={{
-            width: "50%",
-            display: { xs: "none", md: "block" },
-          }}
-        >
-          <Box
-            component="img"
-            src={AuthImage}
-            alt="Signup"
-            sx={{
-              width: "100%",
-              height: "100vh",
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
-        </Box> */}
+      <Container maxWidth="xl">
         <Box
           sx={{
-            width: { xs: "100%", md: "100%" },
-            height: "max-content",
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
             alignItems: "center",
-            gap: "2px",
-            // mx: "20px",
-            p: { xs: "20px", md: "40px" },
-            backgroundColor: "rgba(255, 255, 255, 0.7)",
-            borderRadius: "20px",
+            justifyContent: "center",
           }}
-          component="form"
-          onSubmit={formik.handleSubmit}
         >
-          <Typography variant="h4">Login to your account</Typography>
-          <Typography variant="body2">
-            Get access to your Leads Dashboard
-          </Typography>
-          <InputField
-            label="Email"
-            name="email"
-            formik={formik}
-            margin="normal"
-            fullWidth
-          />
-          <InputField
-            label="Password"
-            name="password"
-            type="password"
-            formik={formik}
-            margin="normal"
-            fullWidth
-          />
           <Box
             sx={{
-              width: "100%",
+              width: { xs: "100%", md: "60%" },
+              height: "max-content",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              mt: "20px",
+              gap: "2px",
+              // mx: "20px",
+              p: { xs: "20px", md: "40px" },
+              backgroundColor: "rgba(255, 255, 255, 0.7)",
+              borderRadius: "20px",
             }}
+            component="form"
+            onSubmit={formik.handleSubmit}
           >
-            <Typography variant="body2" sx={{ mt: "10px" }}>
-              Don't have an account?{" "}
-              <Typography
-                variant="body2"
-                component="span"
-                sx={{ color: "primary.main", cursor: "pointer" }}
-                onClick={() => navigate("/")}
-              >
-                Signup
-              </Typography>
+            <Typography variant="h4">Login to your account</Typography>
+            <Typography variant="body2">
+              Get access to your Leads Dashboard
             </Typography>
+            <InputField
+              label="Email"
+              name="email"
+              formik={formik}
+              margin="normal"
+              fullWidth
+            />
+            <InputField
+              label="Password"
+              name="password"
+              type="password"
+              formik={formik}
+              margin="normal"
+              fullWidth
+            />
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                mt: "20px",
+              }}
+            >
+              <Typography variant="body2" sx={{ mt: "10px" }}>
+                Don't have an account?{" "}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{ color: "primary.main", cursor: "pointer" }}
+                  onClick={() => navigate("/")}
+                >
+                  Signup
+                </Typography>
+              </Typography>
+            </Box>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ width: "100%", height: "50px", mt: "20px" }}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <CircularProgress size={24} color="primary" />
+              ) : (
+                "Login"
+              )}
+            </Button>
           </Box>
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{ width: "100%", height: "50px", mt: "20px" }}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <CircularProgress size={24} color="primary" />
-            ) : (
-              "Login"
-            )}
-          </Button>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 }
 
