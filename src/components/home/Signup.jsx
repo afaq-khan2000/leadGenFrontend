@@ -34,7 +34,7 @@ function Signup() {
     email: Yup.string().email("Invalid email").required("Email is required"),
     phone: Yup.string().required("Phone number is required"),
     password: Yup.string().required("Password is required"),
-    confirmPassword: Yup.string().oneOf(
+    confirmPassword: Yup.string().required("Confirm password is required").oneOf(
       [Yup.ref("password"), null],
       "Passwords must match"
     ),
