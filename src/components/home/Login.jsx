@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { AuthImage } from "../../assets/images";
+import { AuthImage, BGImage } from "../../assets/images";
 import InputField from "../global/InputField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -50,15 +50,45 @@ function Login() {
   });
 
   return (
-    <Container maxWidth="xl" sx={{}}>
+    <Container
+      maxWidth="xl"
+      sx={{
+        // py: "32px",
+        // backgroundImage: `url(${BGImage})`,
+        // backgroundSize: "cover",
+        // backgroundPosition: "center",
+        // backgroundRepeat: "no-repeat",
+        height: "100vh",
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `url(${BGImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          zIndex: -1,
+          filter: "brightness(0.5)",
+        }}
+      />
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
+          justifyContent: "center",
           gap: "20px",
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             width: "50%",
             display: { xs: "none", md: "block" },
@@ -75,16 +105,20 @@ function Login() {
               objectPosition: "center",
             }}
           />
-        </Box>
+        </Box> */}
         <Box
           sx={{
-            width: { xs: "100%", md: "50%" },
-            height: "100vh",
+            width: { xs: "100%", md: "100%" },
+            height: "max-content",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            gap: "10px",
+            gap: "2px",
+            // mx: "20px",
+            p: { xs: "20px", md: "40px" },
+            backgroundColor: "rgba(255, 255, 255, 0.7)",
+            borderRadius: "20px",
           }}
           component="form"
           onSubmit={formik.handleSubmit}
@@ -115,6 +149,7 @@ function Login() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
+              mt: "20px",
             }}
           >
             <Typography variant="body2" sx={{ mt: "10px" }}>
@@ -132,7 +167,7 @@ function Login() {
           <Button
             variant="contained"
             type="submit"
-            sx={{ width: "100%", height: "50px" }}
+            sx={{ width: "100%", height: "50px", mt: "20px" }}
             disabled={isLoading}
           >
             {isLoading ? (
