@@ -12,7 +12,7 @@ function FabIcon() {
       <WhatsApp
         sx={{ color: "#25d366", width: 50, height: 50 }}
         onClick={() => {
-          window.open("https://wa.me/919999999999", "_blank");
+          window.open("https://wa.me/+971505426061", "_blank");
         }}
       />
     </Fab>
