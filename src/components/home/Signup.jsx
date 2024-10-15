@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { AuthImage, BGImage } from "../../assets/images";
+import { AuthImage, BGSignup } from "../../assets/images";
 import InputField from "../global/InputField";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -81,7 +81,7 @@ function Signup() {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundImage: `url(${BGImage})`,
+          backgroundImage: `url(${BGSignup})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
