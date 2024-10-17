@@ -35,26 +35,27 @@ function AppRouter() {
         {/* Sidebar layout */}
         <Route path="/dashboard" element={<Sidebar />}>
           {/* User Routes */}
-          {userRole === "user" && (
-            <>
-              <Route index element={<DashboardPage />} />
-              <Route path="unlocked-leads" element={<UnlockedLeads />} />
-              <Route path="my-transactions" element={<MyTransactions />} />
-            </>
-          )}
+          {/* {userRole === "user" && (
+            <> */}
+          <Route index element={<DashboardPage />} />
+          <Route path="unlocked-leads" element={<UnlockedLeads />} />
+          <Route path="my-transactions" element={<MyTransactions />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+          {/* </>
+          )} */}
 
           {/* Admin Routes */}
-          {userRole === "admin" && (
+          {/* {userRole === "admin" && (
             <>
               <Route index element={<DashboardPage />} />
             </>
-          )}
+          )} */}
 
           {/* Redirect if no role matched */}
-          {!userRole && <Route path="*" element={<Navigate to="/login" />} />}
+          {/* {!userRole && <Route path="*" element={<Navigate to="/login" />} />}
           {userRole && (
             <Route path="*" element={<Navigate to="/dashboard" />} />
-          )}
+          )} */}
         </Route>
       </Routes>
     </Router>
