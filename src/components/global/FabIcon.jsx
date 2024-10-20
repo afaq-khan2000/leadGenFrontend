@@ -7,7 +7,7 @@ function FabIcon() {
     <Fab
       color="#25d366"
       aria-label="add"
-      sx={{ position: "fixed", bottom: 20, right: 20, width: 70, height: 70 }}
+      sx={{ position: "fixed", bottom: 20, right: 10, width: 100, height: 70 }}
     >
       <WhatsApp
         sx={{ color: "#25d366", width: 50, height: 50 }}
