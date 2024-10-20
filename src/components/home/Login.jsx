@@ -35,6 +35,7 @@ function Login() {
       if (res.status === 200) {
         localStorage.setItem("access_token", res.data.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.data.user));
+        console.log(res.data.data.user);
         navigate("/dashboard");
       }
     } catch (error) {

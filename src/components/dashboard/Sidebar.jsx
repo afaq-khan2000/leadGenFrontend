@@ -17,6 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import {
+  Face,
   LockOpen,
   Logout,
   Message,
@@ -41,7 +42,7 @@ function Sidebar({ children, ...props }) {
   const location = useLocation();
   const activePage = location.pathname;
 
-  const sideBarItems = [
+  const userSideBarItems = [
     {
       title: "Leads List",
       icon: <MailIcon />,
@@ -56,6 +57,14 @@ function Sidebar({ children, ...props }) {
       title: "My Transactions",
       icon: <MonetizationOn />,
       link: "/dashboard/my-transactions",
+    },
+  ];
+
+  const adminSideBarItems = [
+    {
+      title: "Users List",
+      icon: <Face />,
+      link: "/dashboard",
     },
   ];
 
@@ -79,28 +88,53 @@ function Sidebar({ children, ...props }) {
       <Toolbar />
       <Divider />
       <List>
-        {sideBarItems.map((item, index) => (
-          <ListItem
-            key={index}
-            disablePadding
-            sx={{
-              backgroundColor: activePage === item.link ? "#08f" : "white",
-              color: activePage === item.link ? "white" : "black",
-            }}
-            onClick={() => navigate(item.link)}
-          >
-            <ListItemButton>
-              <ListItemIcon
-                sx={{
-                  color: activePage === item.link ? "white" : "black",
-                }}
-              >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {user.role === "user" &&
+          userSideBarItems.map((item, index) => (
+            <ListItem
+              key={index}
+              disablePadding
+              sx={{
+                backgroundColor: activePage === item.link ? "#08f" : "white",
+                color: activePage === item.link ? "white" : "black",
+              }}
+              onClick={() => navigate(item.link)}
+            >
+              <ListItemButton>
+                <ListItemIcon
+                  sx={{
+                    color: activePage === item.link ? "white" : "black",
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+
+        {user.role === "admin" &&
+          adminSideBarItems.map((item, index) => (
+            <ListItem
+              key={index}
+              disablePadding
+              sx={{
+                backgroundColor: activePage === item.link ? "#08f" : "white",
+                color: activePage === item.link ? "white" : "black",
+              }}
+              onClick={() => navigate(item.link)}
+            >
+              <ListItemButton>
+                <ListItemIcon
+                  sx={{
+                    color: activePage === item.link ? "white" : "black",
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            </ListItem>
+          ))}
       </List>
     </div>
   );
@@ -108,6 +142,8 @@ function Sidebar({ children, ...props }) {
   // Remove this const when copying and pasting into your project.
   const container =
     window !== undefined ? () => window().document.body : undefined;
+
+    console.log("user", user);
 
   return (
     <Box sx={{ display: "flex" }}>
