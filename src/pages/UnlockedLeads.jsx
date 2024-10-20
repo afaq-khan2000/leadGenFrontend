@@ -45,17 +45,24 @@ function UnlockedLeads() {
     } else {
       setLoading(true);
       // let { page, limit, search, sortBy, order } = query;
-      LeadAPI.getUnlockedLeads(page, limit, search, orderBy, order).then((res) => {
-        if (res.status === 200) {
+      LeadAPI.getUnlockedLeads(page, limit, search, orderBy, order)
+        .then((res) => {
+          if (res.status === 200) {
+            setLoading(false);
+            setLeads(res.data.data.leads);
+            setPagination({
+              totalItems: res.data.data.pagination.totalItems,
+              currentPage: res.data.data.pagination.currentPage,
+              totalPages: res.data.data.pagination.totalPages,
+            });
+          } else {
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
           setLoading(false);
-          setLeads(res.data.data.leads);
-          setPagination({
-            totalItems: res.data.data.pagination.totalItems,
-            currentPage: res.data.data.pagination.currentPage,
-            totalPages: res.data.data.pagination.totalPages,
-          });
-        }
-      });
+        });
       LeadAPI.getStats().then((res) => {
         if (res.status === 200) {
           setStats([
@@ -79,11 +86,11 @@ function UnlockedLeads() {
 
   const columns = [
     { field: "name", headerName: "Name", width: 150 },
-    { field: "email", headerName: "Email",width: 150 },
-    { field: "phone", headerName: "Phone" ,width: 150},
+    { field: "email", headerName: "Email", width: 150 },
+    { field: "phone", headerName: "Phone", width: 150 },
     { field: "car_brand_name", headerName: "Car Name", width: 100 },
     { field: "car_model", headerName: "Car Model", width: 300 },
-    { field: "lead_time", headerName: "Date" ,width: 100},
+    { field: "lead_time", headerName: "Date", width: 100 },
     { field: "unlock_date", headerName: "Unlock Date", width: 150 },
     { field: "credits_used", headerName: "Credits Used", width: 100 },
   ];
@@ -106,7 +113,26 @@ function UnlockedLeads() {
     <Box>
       {/* <Sidebar> */}
       <Cards data={stats} />
-      <DataTable columns={columns} rows={rows} pagination={pagination} page={page} setPage={setPage} limit={limit} setLimit={setLimit} leads={leads} setLeads={setLeads} setRefresh={setRefresh} refresh={refresh} loading={loading} search={search} setSearch={setSearch} order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy} />
+      <DataTable
+        columns={columns}
+        rows={rows}
+        pagination={pagination}
+        page={page}
+        setPage={setPage}
+        limit={limit}
+        setLimit={setLimit}
+        leads={leads}
+        setLeads={setLeads}
+        setRefresh={setRefresh}
+        refresh={refresh}
+        loading={loading}
+        search={search}
+        setSearch={setSearch}
+        order={order}
+        setOrder={setOrder}
+        orderBy={orderBy}
+        setOrderBy={setOrderBy}
+      />
       {/* </Sidebar> */}
     </Box>
   );

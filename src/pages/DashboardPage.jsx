@@ -48,17 +48,23 @@ function DashboardPage() {
     } else {
       setLoading(true);
       // let { page, limit, search, sortBy, order } = query;
-      LeadAPI.getAllLeads(page, limit, search, orderBy, order).then((res) => {
-        if (res.status === 200) {
+      LeadAPI.getAllLeads(page, limit, search, orderBy, order)
+        .then((res) => {
+          if (res.status === 200) {
+            setLoading(false);
+            setLeads(res.data.data.leads);
+            setPagination({
+              totalItems: res.data.data.pagination.totalItems,
+              currentPage: res.data.data.pagination.currentPage,
+              totalPages: res.data.data.pagination.totalPages,
+            });
+          } else {
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
           setLoading(false);
-          setLeads(res.data.data.leads);
-          setPagination({
-            totalItems: res.data.data.pagination.totalItems,
-            currentPage: res.data.data.pagination.currentPage,
-            totalPages: res.data.data.pagination.totalPages,
-          });
-        }
-      });
+        });
       LeadAPI.getStats().then((res) => {
         if (res.status === 200) {
           setStats([
@@ -107,10 +113,10 @@ function DashboardPage() {
 
   const columns = [
     { field: "name", headerName: "Name", width: 100 },
-    { field: "car_brand_name", headerName: "Car Name" , width: 100},
-    { field: "car_model", headerName: "Car Model" , width: 300},
+    { field: "car_brand_name", headerName: "Car Name", width: 100 },
+    { field: "car_model", headerName: "Car Model", width: 300 },
     { field: "email", headerName: "Email", width: 100 },
-    { field: "phone", headerName: "Phone" , width: 100},
+    { field: "phone", headerName: "Phone", width: 100 },
     { field: "lead_time", headerName: "Date", width: 100 },
     {
       field: "is_unlocked",
@@ -118,7 +124,14 @@ function DashboardPage() {
       width: 300,
       renderCell: (params) => {
         return (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, cursor: "pointer" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              cursor: "pointer",
+            }}
+          >
             {params.row.is_unlocked ? (
               <LockOpen />
             ) : unlockLoading.loading && unlockLoading.id === params.row.id ? (
@@ -153,7 +166,26 @@ function DashboardPage() {
     <Box>
       {/* <Sidebar> */}
       <Cards data={stats} />
-      <DataTable columns={columns} rows={rows} pagination={pagination} page={page} setPage={setPage} limit={limit} setLimit={setLimit} leads={leads} setLeads={setLeads} setRefresh={setRefresh} refresh={refresh} loading={loading} search={search} setSearch={setSearch} order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy} />
+      <DataTable
+        columns={columns}
+        rows={rows}
+        pagination={pagination}
+        page={page}
+        setPage={setPage}
+        limit={limit}
+        setLimit={setLimit}
+        leads={leads}
+        setLeads={setLeads}
+        setRefresh={setRefresh}
+        refresh={refresh}
+        loading={loading}
+        search={search}
+        setSearch={setSearch}
+        order={order}
+        setOrder={setOrder}
+        orderBy={orderBy}
+        setOrderBy={setOrderBy}
+      />
       {/* </Sidebar> */}
     </Box>
   );

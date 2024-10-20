@@ -28,14 +28,19 @@ function MyTransactions() {
       window.location.href = "/login";
     } else {
       setLoading(true);
-      AuthAPI.getStripeTransactions().then((res) => {
-        if (res.status === 200) {
+      AuthAPI.getStripeTransactions()
+        .then((res) => {
+          if (res.status === 200) {
+            setLoading(false);
+            setTransactions(res.data.data.transactions.data);
+          } else {
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
           setLoading(false);
-          console.log(res.data.data);
-
-          setTransactions(res.data.data.transactions.data);
-        }
-      });
+        });
 
       LeadAPI.getStats().then((res) => {
         if (res.status === 200) {
@@ -78,7 +83,11 @@ function MyTransactions() {
       status: transaction.status,
       last4: transaction.payment_method_details.card.last4,
       brand: transaction.payment_method_details.card.brand,
-      receipt_url: <a href={transaction.receipt_url} target="_blank">View Receipt</a>,
+      receipt_url: (
+        <a href={transaction.receipt_url} target="_blank">
+          View Receipt
+        </a>
+      ),
     };
   });
 
@@ -86,7 +95,12 @@ function MyTransactions() {
     <Box>
       {/* <Sidebar> */}
       <Cards data={stats} />
-      <DataTable columns={columns} rows={rows} dontShowPagination={true} loading={loading} />
+      <DataTable
+        columns={columns}
+        rows={rows}
+        dontShowPagination={true}
+        loading={loading}
+      />
       {/* <DataTable columns={columns} rows={rows} pagination={pagination} page={page} setPage={setPage} limit={limit} setLimit={setLimit} leads={leads} setLeads={setLeads} setRefresh={setRefresh} refresh={refresh} loading={loading} search={search} setSearch={setSearch} order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy} /> */}
       {/* </Sidebar> */}
     </Box>
