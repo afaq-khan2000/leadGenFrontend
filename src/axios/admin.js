@@ -8,11 +8,15 @@ class Routes {
     return response;
   }
 
+  async getAllUnlockedLeads(page, limit, search, sortBy, order) {
+    const response = await axios.get(`/admin/unlocked-leads?page=${page}&limit=${limit}&search=${search}&sortBy=${sortBy}&order=${order}`);
+    return response;
+  }
+
   async getStats() {
     const response = await axios.get(`/admin/stats`);
     return response;
   }
-
 }
 
 export default new Routes();

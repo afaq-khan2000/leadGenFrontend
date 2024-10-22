@@ -16,14 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import {
-  Face,
-  LockOpen,
-  Logout,
-  Message,
-  MonetizationOn,
-  Notifications,
-} from "@mui/icons-material";
+import { Face, LockOpen, Logout, Message, MonetizationOn, Notifications } from "@mui/icons-material";
 import FabIcon from "../global/FabIcon";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -65,6 +58,11 @@ function Sidebar({ children, ...props }) {
       title: "Users List",
       icon: <Face />,
       link: "/dashboard",
+    },
+    {
+      title: "Unlocked Leads",
+      icon: <LockOpen />,
+      link: "/dashboard/admin-unlocked-leads",
     },
   ];
 
@@ -140,10 +138,9 @@ function Sidebar({ children, ...props }) {
   );
 
   // Remove this const when copying and pasting into your project.
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
-    console.log("user", user);
+  console.log("user", user);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -162,13 +159,7 @@ function Sidebar({ children, ...props }) {
             color: "black",
           }}
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
+          <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: "none" } }}>
             <MenuIcon />
           </IconButton>
           {/* <Typography variant="h6" noWrap component="div">
@@ -183,9 +174,7 @@ function Sidebar({ children, ...props }) {
           >
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography variant="h6">Hey {user.first_name}</Typography>
-              <Typography variant="body2">
-                {new Date().toLocaleDateString()}
-              </Typography>
+              <Typography variant="body2">{new Date().toLocaleDateString()}</Typography>
             </Box>
             <Box sx={{ display: "flex" }}>
               <IconButton color="inherit">
@@ -201,11 +190,7 @@ function Sidebar({ children, ...props }) {
           </Box>
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}

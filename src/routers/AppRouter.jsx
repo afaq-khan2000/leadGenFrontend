@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
-import {
-  AdminDashboardPage,
-  DashboardPage,
-  LoginPage,
-  MyTransactions,
-  SignupPage,
-  UnlockedLeads,
-  VerifyEmail,
-} from "../pages";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { AdminDashboardPage, AdminUnlockedLeads, DashboardPage, LoginPage, MyTransactions, SignupPage, UnlockedLeads, VerifyEmail } from "../pages";
 import { Sidebar } from "../components/dashboard";
 
 // Helper component to handle authentication
@@ -27,11 +13,7 @@ const PrivateRoute = ({ element }) => {
 const RoleBasedRoute = ({ element, allowedRoles }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user) return <Navigate to="/login" replace />;
-  return allowedRoles.includes(user.role) ? (
-    element
-  ) : (
-    <Navigate to="/dashboard" replace />
-  );
+  return allowedRoles.includes(user.role) ? element : <Navigate to="/dashboard" replace />;
 };
 
 function AppRouter() {
@@ -58,40 +40,13 @@ function AppRouter() {
       {/* Private Routes */}
       <Route path="/dashboard" element={<PrivateRoute element={<Sidebar />} />}>
         {/* Role-based Dashboard Rendering */}
-        <Route
-          index
-          element={
-            <RoleBasedRoute
-              element={
-                userRole === "admin" ? (
-                  <AdminDashboardPage />
-                ) : (
-                  <DashboardPage />
-                )
-              }
-              allowedRoles={["user", "admin"]}
-            />
-          }
-        />
+        <Route index element={<RoleBasedRoute element={userRole === "admin" ? <AdminDashboardPage /> : <DashboardPage />} allowedRoles={["user", "admin"]} />} />
         {/* User-specific Routes */}
-        <Route
-          path="unlocked-leads"
-          element={
-            <RoleBasedRoute
-              element={<UnlockedLeads />}
-              allowedRoles={["user"]}
-            />
-          }
-        />
-        <Route
-          path="my-transactions"
-          element={
-            <RoleBasedRoute
-              element={<MyTransactions />}
-              allowedRoles={["user"]}
-            />
-          }
-        />
+        <Route path="unlocked-leads" element={<RoleBasedRoute element={<UnlockedLeads />} allowedRoles={["user"]} />} />
+        <Route path="my-transactions" element={<RoleBasedRoute element={<MyTransactions />} allowedRoles={["user"]} />} />
+
+        {/* Admin Routes */}
+        <Route path="admin-unlocked-leads" element={<RoleBasedRoute element={<AdminUnlockedLeads />} allowedRoles={["admin"]} />} />
       </Route>
 
       {/* Fallback for undefined routes */}
