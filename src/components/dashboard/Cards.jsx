@@ -84,7 +84,7 @@ function Cards({
             <Typography variant="h4" color="text.primary">
               {card.value}
             </Typography>
-            {card.title === "My Credits" && (
+            {card.title.includes("My Credits") && (
               <Button
                 variant="contained"
                 color="primary"

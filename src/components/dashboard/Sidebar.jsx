@@ -140,8 +140,6 @@ function Sidebar({ children, ...props }) {
   // Remove this const when copying and pasting into your project.
   const container = window !== undefined ? () => window().document.body : undefined;
 
-  console.log("user", user);
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />

@@ -7,6 +7,23 @@ import { useNavigate } from "react-router-dom";
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user")) ?? {};
+//   {
+//     "user_id": 47,
+//     "role": "user",
+//     "username": "luzab",
+//     "email": "trial-test@yopmail.com",
+//     "phone": "+1 (217) 161-3956",
+//     "password_hash": "$2b$10$rV1bC/2E1Kjm9A4noipqXu7jxPuOLg1ni7INn6LfG5jItwVV8yZmm",
+//     "first_name": "Amal",
+//     "last_name": "Ferrell",
+//     "dealership_name": "Dorothy Martinez",
+//     "created_at": "2024-10-29T19:30:09.824Z",
+//     "credits": 0,
+//     "is_verified": true,
+//     "verification_code": null,
+//     "trial_period_end": "2025-01-30T00:00:00.000Z"
+// }
 
   const [loading, setLoading] = React.useState(false);
   const [unlockLoading, setUnlockLoading] = React.useState({
@@ -77,7 +94,8 @@ function DashboardPage() {
               value: res.data.data.unlockedLeads,
             },
             {
-              title: "My Credits",
+              // title should be displaying the credits of the user and if trial period is active then it should display the trial period end date
+              title: new Date(user.trial_period_end) > new Date() ? `My Credits (Trial Period Ends: ${new Date(user.trial_period_end).toDateString()})` : "My Credits",
               value: res.data.data.myCredits.credits,
             },
           ]);
