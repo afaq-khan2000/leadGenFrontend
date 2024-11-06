@@ -100,7 +100,11 @@ function UnlockedLeads() {
       id: lead.unlock_id,
       name: lead.lead_final.name,
       email: lead.lead_final.email,
-      phone: lead.lead_final.phone,
+      phone: (
+        <a href={`https://wa.me/${lead.lead_final.phone}`} target="_blank" rel="noreferrer">
+          {lead.lead_final.phone}
+        </a>
+      ),
       car_brand_name: lead.lead_final.car_brand_relationship.car_brand_name,
       car_model: lead.lead_final.car_model,
       lead_time: lead.lead_final.lead_time,
@@ -113,26 +117,7 @@ function UnlockedLeads() {
     <Box>
       {/* <Sidebar> */}
       <Cards data={stats} />
-      <DataTable
-        columns={columns}
-        rows={rows}
-        pagination={pagination}
-        page={page}
-        setPage={setPage}
-        limit={limit}
-        setLimit={setLimit}
-        leads={leads}
-        setLeads={setLeads}
-        setRefresh={setRefresh}
-        refresh={refresh}
-        loading={loading}
-        search={search}
-        setSearch={setSearch}
-        order={order}
-        setOrder={setOrder}
-        orderBy={orderBy}
-        setOrderBy={setOrderBy}
-      />
+      <DataTable columns={columns} rows={rows} pagination={pagination} page={page} setPage={setPage} limit={limit} setLimit={setLimit} leads={leads} setLeads={setLeads} setRefresh={setRefresh} refresh={refresh} loading={loading} search={search} setSearch={setSearch} order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy} />
       {/* </Sidebar> */}
     </Box>
   );

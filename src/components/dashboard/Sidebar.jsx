@@ -234,7 +234,7 @@ function Sidebar({ children, ...props }) {
         <Toolbar />
         <Outlet />
       </Box>
-      <FabIcon />
+      {/* <FabIcon /> */}
     </Box>
   );
 }
