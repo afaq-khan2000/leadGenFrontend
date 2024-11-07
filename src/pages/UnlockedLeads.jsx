@@ -1,8 +1,8 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { Cards, Sidebar, DataTable } from "../components/dashboard";
 import { LeadAPI } from "../axios";
-import { Lock, LockOpen } from "@mui/icons-material";
+import { Lock, LockOpen, Phone, WhatsApp } from "@mui/icons-material";
 
 function UnlockedLeads() {
   const [loading, setLoading] = React.useState(false);
@@ -84,10 +84,17 @@ function UnlockedLeads() {
     }
   }, [page, refresh, limit, order, orderBy, search]);
 
+  function formatPhoneNumber(number) {
+    // Convert the number to an integer to remove the decimal
+    const phoneString = Math.floor(number).toString();
+    // Format the phone number as (234) 816-514-2983
+    return phoneString.replace(/(\d{3})(\d{3})(\d{3})(\d{4})/, '($1) $2-$3-$4');
+  }
+
   const columns = [
     { field: "name", headerName: "Name", width: 150 },
     { field: "email", headerName: "Email", width: 150 },
-    { field: "phone", headerName: "Phone", width: 150 },
+    { field: "phone", headerName: "Phone", width: 300 },
     { field: "car_brand_name", headerName: "Car Name", width: 100 },
     { field: "car_model", headerName: "Car Model", width: 300 },
     { field: "lead_time", headerName: "Date", width: 100 },
@@ -101,10 +108,23 @@ function UnlockedLeads() {
       name: lead.lead_final.name,
       email: lead.lead_final.email,
       phone: (
-        <a href={`https://wa.me/${lead.lead_final.phone}`} target="_blank" rel="noreferrer">
-          {lead.lead_final.phone}
-        </a>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography>{formatPhoneNumber(lead.lead_final.phone)}</Typography>
+          <WhatsApp
+            sx={{ color: "green", cursor: "pointer", marginLeft: 1 }}
+            onClick={() => {
+              window.open(`https://wa.me/${lead.lead_final.phone}`, "_blank");
+            }}
+          />
+          <Phone
+            sx={{ color: "blue", cursor: "pointer", marginLeft: 1 }}
+            onClick={() => {
+              window.open(`tel:${lead.lead_final.phone}`, "_blank");
+            }}
+          />
+        </Box>
       ),
+
       car_brand_name: lead.lead_final.car_brand_relationship.car_brand_name,
       car_model: lead.lead_final.car_model,
       lead_time: lead.lead_final.lead_time,
